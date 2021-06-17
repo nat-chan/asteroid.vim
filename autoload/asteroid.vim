@@ -11,12 +11,18 @@ let s:script_dir = expand('<sfile>:p:h')
 
 py3 << EOF
 import ast
-import sys
+import vim
+from rich.tree import Tree
 EOF
 
-function asteroid#version()
+function! asteroid#version()
     py3 print(sys.version)
 endfunction
+
+function! asteroid#path()
+    echo s:script_dir
+endfunction
+
 
 let &cpoptions = s:save_cpo
 unlet s:save_cpo
