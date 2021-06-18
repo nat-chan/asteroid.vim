@@ -4,6 +4,7 @@ import _ast
 from rich.tree import Tree
 
 def r(source):
+    # TODO _ast.FunctionDef だと.valueいらない
     return ast.parse(source).body[0].value
 
 def shave(node):
@@ -23,13 +24,13 @@ def name(node):
 
 def children(node):
 #    if hasattr(node, 'left') and hasattr(node, 'right'):
-    if type(root) == _ast.BinOp:
+    if type(node) == _ast.BinOp:
         return [node.left, node.right]
 #    if hasattr(node, 'left') and hasattr(node, 'comparators'):
-    if type(root) == _ast.Compare:
+    if type(node) == _ast.Compare:
         return [node.left]+node.comparators
-    if type(root) == _ast.Subscript
-        return [root.value, root.slice]
+    if type(node) == _ast.Subscript:
+        return [node.value, node.slice]
     if (hasattr(node, 'lower') and
         hasattr(node, 'upper') and
         hasattr(node, 'step')):
@@ -45,6 +46,11 @@ def children(node):
         return [lower, upper, step]
     return []
 
+def rec(node):
+    g = Tree(name(node))
+    for child in children(node):
+        g.add(rec(child))
+    return g
 
 
 
