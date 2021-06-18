@@ -1,6 +1,7 @@
 scriptencoding utf-8
 let s:save_cpo = &cpoptions
 set cpoptions&vim
+let s:script_dir = expand('<sfile>:p:h')
 "if exists('s:is_loaded')
 "    finish
 "endif
@@ -117,10 +118,19 @@ function! asteroid#path()
     echo s:script_dir
 endfunction
 
+function! asteroid#exe()
+    let l:txt = ""
+    for l:line in readfile(expand("%"))
+        let l:txt .= l:line . "\n"
+    endfor
+    echo l:txt
+endfunction
+
 command! -range AstSelected call asteroid#selected()
 command! -range AstShow call asteroid#show()
 command! AstVersion call asteroid#version()
 command! AstPath call asteroid#path()
+command! AstExe execute
 
 
 let &cpoptions = s:save_cpo
