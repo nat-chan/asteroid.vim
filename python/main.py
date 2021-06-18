@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import ast
 import _ast
+import rich
 from rich.tree import Tree
 
 def r(source):
@@ -31,6 +32,7 @@ def children(node):
         return [node.left]+node.comparators
     if type(node) == _ast.Subscript:
         return [node.value, node.slice]
+    # slice [lower:upper:step]
     if (hasattr(node, 'lower') and
         hasattr(node, 'upper') and
         hasattr(node, 'step')):
@@ -44,6 +46,9 @@ def children(node):
         if step == None:
             step = _ast.Num(1)
         return [lower, upper, step]
+    # slice [index]
+    if type(node) == _ast.Index:
+        return [node.value]
     return []
 
 def rec(node):
@@ -53,4 +58,5 @@ def rec(node):
     return g
 
 
-
+if __name__ == '__main__':
+    rich.print(rec(r("a[n::3]")))
