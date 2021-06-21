@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: encoding -*-
 import ast
 import _ast
 import rich

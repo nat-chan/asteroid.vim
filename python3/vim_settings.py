@@ -1,7 +1,4 @@
-#!/usr/bin/env python3
-# -*- coding: encoding -*-
 import vim
-
 
 def selected():
     buf = vim.current.buffer
