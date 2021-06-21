@@ -1,0 +1,14 @@
+name: asteroid
+channels:
+  - anaconda
+  - conda-forge
+  - default
+dependencies:
+  - python==3.8.2
+  - mypy
+  - pylint
+  - yapf
+  - pip
+  - pip:
+    - icecream
+    - rich

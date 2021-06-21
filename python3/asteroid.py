@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: encoding -*-
 import ast
 import _ast
 import rich
@@ -56,7 +57,3 @@ def rec(node):
     for child in children(node):
         g.add(rec(child))
     return g
-
-
-if __name__ == '__main__':
-    rich.print(rec(r("a[n::3]")))
