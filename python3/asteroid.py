@@ -3,14 +3,26 @@ import _ast
 import rich
 from rich.tree import Tree
 
+# TODO 要検証、式でなく文は.valueいらない
+STATEMENTS = {
+    _ast.FunctionDef,
+    _ast.Assign,
+}
+
 def r(source):
-    # TODO _ast.FunctionDef だと.valueいらない
-    return ast.parse(source).body[0].value
+    # TODO bodyが複数あるケースへの対応
+    root = ast.parse(source).body[0]
+    if type(root) in STATEMENTS:
+        return root
+    else:
+        return root.value
 
 def shave(node):
     return str(node).replace('.', ' ').split()[1]
 
 def name(node):
+    if type(node) == _ast.FunctionDef:
+        return f"FunctionDef {node.name}"
     if hasattr(node, 'id'):
         return node.id
     if hasattr(node, 'n'):
@@ -48,6 +60,14 @@ def children(node):
     # slice [index]
     if type(node) == _ast.Index:
         return [node.value]
+    if type(node) == _ast.Assign:
+        return node.targets + [node.value]
+    if type(node) == _ast.Tuple:
+        return node.elts
+    if type(node) == _ast.FunctionDef: # TODO FunctionDefが完全でない
+        return [node.args, node.body]
+    if type(node) == _ast.arguments:
+        return node.args # TODO kwargs, kw_defaults, kwonlyargs, vararg
     return []
 
 def rec(node):

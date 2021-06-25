@@ -10,6 +10,7 @@ let s:script_dir = expand('<sfile>:p:h')
 " autocmd! BufWritePost asteroid.vim source asteroid.vim
 
 function! asteroid#init()
+    " TODO 読み込む位置によってfnamemodify...の結果が変わる
     execute "py3file " . fnamemodify("<sfile>", ":p:h:h") . "/python3/asteroid.py"
     execute "py3file " . fnamemodify("<sfile>", ":p:h:h") . "/python3/vim_settings.py"
 endfunction
